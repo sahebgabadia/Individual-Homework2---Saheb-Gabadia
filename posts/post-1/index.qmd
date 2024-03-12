@@ -1,0 +1,13 @@
+---
+title: "Data Science post 1"
+author: "Saheb Gabadia"
+date: "2024-03-12"
+categories: [news, code, analysis]
+image: "image.jpg"
+---
+
+This is a post with executable code.
+
+```{r}
+1 + 1
+```
