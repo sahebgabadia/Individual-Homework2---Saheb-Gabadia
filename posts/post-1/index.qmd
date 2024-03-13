@@ -1,12 +1,14 @@
 ---
-title: "Data Science post 1"
+title: "About Me"
 author: "Saheb Gabadia"
 date: "2024-03-12"
 categories: [news, code, analysis]
 image: "image.jpg"
 ---
 
-This is a post with executable code.
+Greetings all! I'm Saheb Gabadia, presently advancing towards a Master of Science in Information Management at the University of Illinois at Urbana-Champaign. I am interning as a Software Developer and anticipate my graduation in May 2024.
+
+Amidst the academic rigor, I've embraced basketball and volleyball as my recreational pursuits. Every weekend, my friends and I conscientiously carve out time to engage in these sports, which serve as a delightful respite from the bustling array of work and assignments that fill our weeks.
 
 ```{r}
 1 + 1
