@@ -1,0 +1,79 @@
+---
+title: "Data Science Post 1"
+author: "Saheb Gabadia"
+date: "2024-03-18"
+image: "dataset-cover.jpeg"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+library(RColorBrewer)
+```
+
+## **Dataset Overview**
+
+This dataset contains salary information in the tech industry for the year 2024. It includes details such as work year, experience level, employment type, job title, salary in both local currency and USD, employee residence, remote ratio, company location, and company size.
+
+#### Let's take a quick look at the structure of the dataset:
+
+```{r}
+salaries <- read.csv("salaries.csv")
+str(salaries)
+```
+
+#### And here are the first few rows to get a sense of the data:
+
+```{r}
+kable(head(salaries))
+```
+
+## **Average Salary by Experience Level**
+
+The following visualization illustrates how the average salary varies with the experience level of employees. This can provide insights into how compensation trends correlate with experience in the tech industry.
+
+```{r}
+# Calculate average salary by experience level
+average_salary_by_exp <- salaries %>%
+  group_by(experience_level) %>%
+  summarise(AverageSalaryUSD = mean(salary_in_usd, na.rm = TRUE))
+
+# Plot the average salary by experience level
+ggplot(average_salary_by_exp, aes(x = experience_level, y = AverageSalaryUSD, fill = experience_level)) +
+  geom_col() +
+  theme_minimal() +
+  labs(title = "Average Salary by Experience Level",
+       x = "Experience Level",
+       y = "Average Salary in USD",
+       fill = "Experience Level")
+```
+
+## **Top 10 Job Titles Frequency**
+
+\
+The purpose of this visualization is to highlight the most common job titles in the dataset, showcasing their relative frequencies in descending order to identify industry trends and demand.
+
+```{r}
+# Calculate the frequency of each job title, keep the top 10, and ensure they are in descending order
+top_job_titles_desc <- salaries %>%
+  group_by(job_title) %>%
+  summarise(Count = n()) %>%
+  arrange(desc(Count)) %>%
+  top_n(10, Count)
+
+# Ensure the plot shows these in descending order of frequency
+ggplot(top_job_titles_desc, aes(x = reorder(job_title, -Count), y = Count, fill = job_title)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        legend.position = "none") +
+  labs(title = "Top 10 Job Titles by Frequency",
+       x = "Job Title",
+       y = "Frequency")
+```
+
+### Citations:
+
+<https://www.kaggle.com/datasets/abhinavshaw09/data-science-job-salaries-2024>

@@ -1,0 +1,74 @@
+---
+title: "Data Science Post 2"
+author: "Saheb Gabadia"
+date: "2024-03-18"
+image: "dataset-cover.jpg"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(dplyr)
+library(knitr)
+```
+
+## **Dataset Overview**
+
+The dataset contains various specifications of car models, including their make, model, body style, production years, and power specifications.
+
+#### Let's take a quick look at the structure of the dataset:
+
+```{r}
+cars <- read.csv("cars-dataset.csv")
+str(cars)
+```
+
+#### And here are the first few rows to get a sense of the data:
+
+```{r}
+kable(head(cars))
+```
+
+## **Average Power (HP) by Company**
+
+This visualization will provide insights into the average horsepower provided by different car manufacturers. A bar chart can illustrate the average power for companies with a significant number of models in the dataset, highlighting the performance aspect of the different brands.
+
+```{r}
+cars$Power.HP.numeric <- as.numeric(gsub(" HP.*", "", cars$Power.HP))
+
+cars %>% 
+  filter(!is.na(Power.HP.numeric)) %>%
+  group_by(Company) %>%
+  summarise(AvgPower = mean(Power.HP.numeric, na.rm = TRUE)) %>%
+  filter(AvgPower > 0) %>% # Filter out companies with 0 or NA average power
+  arrange(desc(AvgPower)) %>%
+  slice(1:20) %>% # Select top 20 companies by average power for a cleaner visualization
+  ggplot(aes(x = reorder(Company, AvgPower), y = AvgPower)) +
+  geom_bar(stat = "identity", fill = "tomato") +
+  theme_minimal() +
+  labs(title = "Average Power (HP) by Company",
+       x = "Company",
+       y = "Average Power (HP)") +
+  coord_flip()
+```
+
+## **Distribution of Cars by Body Style**
+
+This will help us understand the variety of car body styles in the dataset. A bar chart can be used for this purpose, showcasing the number of cars per body style.
+
+```{r}
+cars %>% 
+  group_by(Body.style) %>%
+  summarise(Count = n()) %>%
+  ggplot(aes(x = reorder(Body.style, -Count), y = Count)) +
+  geom_bar(stat = "identity", fill = "steelblue") +
+  theme_minimal() +
+  labs(title = "Distribution of Cars by Body Style",
+       x = "Body Style",
+       y = "Number of Cars") +
+  coord_flip()
+```
+
+### Citations:
+
+<https://www.kaggle.com/datasets/usefashrfi/car-specification-dataset>

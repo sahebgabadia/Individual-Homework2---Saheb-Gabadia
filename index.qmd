@@ -1,8 +1,8 @@
 ---
-title: "Individual Homework2 - Saheb Gabadia"
+title: "Data Science Blog"
 listing:
   contents: posts
-  sort: "date desc"
+  sort: "title asc"
   type: default
   categories: true
   sort-ui: false
