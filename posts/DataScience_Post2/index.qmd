@@ -57,7 +57,12 @@ cars %>%
 This will help us understand the variety of car body styles in the dataset. A bar chart can be used for this purpose, showcasing the number of cars per body style.
 
 ```{r}
-cars %>% 
+cleaned_cars <- cars %>%
+  filter(!is.na(Body.style) & Body.style != "" & Body.style != " ") %>%
+  mutate(Body.style = trimws(Body.style)) # This trims leading and trailing whitespace
+
+# Now, creating the plot with the cleaned dataset
+cleaned_cars %>%
   group_by(Body.style) %>%
   summarise(Count = n()) %>%
   ggplot(aes(x = reorder(Body.style, -Count), y = Count)) +
